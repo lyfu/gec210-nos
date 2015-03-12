@@ -1,0 +1,117 @@
+
+clock.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+30000000 <_start>:
+30000000:	e59f0014 	ldr	r0, [pc, #20]	; 3000001c <halt+0x4>
+30000004:	e3a01000 	mov	r1, #0
+30000008:	e5801000 	str	r1, [r0]
+3000000c:	e3a0d431 	mov	sp, #822083584	; 0x31000000
+30000010:	eb000028 	bl	300000b8 <clock_init>
+30000014:	eb000014 	bl	3000006c <main>
+
+30000018 <halt>:
+30000018:	eafffffe 	b	30000018 <halt>
+3000001c:	e2700000 	rsbs	r0, r0, #0
+
+30000020 <delay>:
+30000020:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
+30000024:	e28db000 	add	fp, sp, #0
+30000028:	e24dd014 	sub	sp, sp, #20
+3000002c:	e50b0010 	str	r0, [fp, #-16]
+30000030:	e51b3010 	ldr	r3, [fp, #-16]
+30000034:	e50b3008 	str	r3, [fp, #-8]
+30000038:	e1a00000 	nop			; (mov r0, r0)
+3000003c:	e51b3008 	ldr	r3, [fp, #-8]
+30000040:	e3530000 	cmp	r3, #0
+30000044:	03a02000 	moveq	r2, #0
+30000048:	13a02001 	movne	r2, #1
+3000004c:	e6ef2072 	uxtb	r2, r2
+30000050:	e2433001 	sub	r3, r3, #1
+30000054:	e50b3008 	str	r3, [fp, #-8]
+30000058:	e3520000 	cmp	r2, #0
+3000005c:	1afffff6 	bne	3000003c <delay+0x1c>
+30000060:	e28bd000 	add	sp, fp, #0
+30000064:	e8bd0800 	pop	{fp}
+30000068:	e12fff1e 	bx	lr
+
+3000006c <main>:
+3000006c:	e92d4800 	push	{fp, lr}
+30000070:	e28db004 	add	fp, sp, #4
+30000074:	e59f3030 	ldr	r3, [pc, #48]	; 300000ac <main+0x40>
+30000078:	e59f2030 	ldr	r2, [pc, #48]	; 300000b0 <main+0x44>
+3000007c:	e5832000 	str	r2, [r3]
+30000080:	e59f302c 	ldr	r3, [pc, #44]	; 300000b4 <main+0x48>
+30000084:	e3a02000 	mov	r2, #0
+30000088:	e5832000 	str	r2, [r3]
+3000008c:	e3a00601 	mov	r0, #1048576	; 0x100000
+30000090:	ebffffe2 	bl	30000020 <delay>
+30000094:	e59f3018 	ldr	r3, [pc, #24]	; 300000b4 <main+0x48>
+30000098:	e3a0200f 	mov	r2, #15
+3000009c:	e5832000 	str	r2, [r3]
+300000a0:	e3a00601 	mov	r0, #1048576	; 0x100000
+300000a4:	ebffffdd 	bl	30000020 <delay>
+300000a8:	eafffff4 	b	30000080 <main+0x14>
+300000ac:	e0200280 	eor	r0, r0, r0, lsl #5
+300000b0:	00001111 	andeq	r1, r0, r1, lsl r1
+300000b4:	e0200284 	eor	r0, r0, r4, lsl #5
+
+300000b8 <clock_init>:
+300000b8:	e59f004c 	ldr	r0, [pc, #76]	; 3000010c <clock_init+0x54>
+300000bc:	e3a01000 	mov	r1, #0
+300000c0:	e5801200 	str	r1, [r0, #512]	; 0x200
+300000c4:	e59f1044 	ldr	r1, [pc, #68]	; 30000110 <clock_init+0x58>
+300000c8:	e5801000 	str	r1, [r0]
+300000cc:	e5801008 	str	r1, [r0, #8]
+300000d0:	e5901300 	ldr	r1, [r0, #768]	; 0x300
+300000d4:	e3e02102 	mvn	r2, #-2147483648	; 0x80000000
+300000d8:	e1c11002 	bic	r1, r1, r2
+300000dc:	e59f2030 	ldr	r2, [pc, #48]	; 30000114 <clock_init+0x5c>
+300000e0:	e1811002 	orr	r1, r1, r2
+300000e4:	e5801300 	str	r1, [r0, #768]	; 0x300
+300000e8:	e59f1028 	ldr	r1, [pc, #40]	; 30000118 <clock_init+0x60>
+300000ec:	e5801100 	str	r1, [r0, #256]	; 0x100
+300000f0:	e59f1024 	ldr	r1, [pc, #36]	; 3000011c <clock_init+0x64>
+300000f4:	e5801108 	str	r1, [r0, #264]	; 0x108
+300000f8:	e5901200 	ldr	r1, [r0, #512]	; 0x200
+300000fc:	e59f201c 	ldr	r2, [pc, #28]	; 30000120 <clock_init+0x68>
+30000100:	e1811002 	orr	r1, r1, r2
+30000104:	e5801200 	str	r1, [r0, #512]	; 0x200
+30000108:	e1a0f00e 	mov	pc, lr
+3000010c:	e0100000 	ands	r0, r0, r0
+30000110:	0000ffff 	strdeq	pc, [r0], -pc
+30000114:	14131440 	ldrne	r1, [r3], #-1088	; 0x440
+30000118:	807d0301 	rsbshi	r0, sp, r1, lsl #6
+3000011c:	829b0c01 	addshi	r0, fp, #256	; 0x100
+30000120:	10001111 	andne	r1, r0, r1, lsl r1
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00003341 	andeq	r3, r0, r1, asr #6
+   4:	61656100 	cmnvs	r5, r0, lsl #2
+   8:	01006962 	tsteq	r0, r2, ror #18
+   c:	00000029 	andeq	r0, r0, r9, lsr #32
+  10:	4d524105 	ldfmie	f4, [r2, #-20]	; 0xffffffec
+  14:	36373131 	undefined instruction 0x36373131
+  18:	2d465a4a 	vstrcs	s11, [r6, #-296]	; 0xfffffed8
+  1c:	09060053 	stmdbeq	r6, {r0, r1, r4, r6}
+  20:	01090108 	tsteq	r9, r8, lsl #2
+  24:	0412020a 	ldreq	r0, [r2], #-522	; 0x20a
+  28:	01150114 	tsteq	r5, r4, lsl r1
+  2c:	01180317 	tsteq	r8, r7, lsl r3
+  30:	031b021a 	tsteq	fp, #-1610612735	; 0xa0000001
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 	bcc	10d0d24 <_start-0x2ef2f2dc>
+   4:	74632820 	strbtvc	r2, [r3], #-2080	; 0x820
+   8:	312d676e 	teqcc	sp, lr, ror #14
+   c:	312e382e 	teqcc	lr, lr, lsr #16
+  10:	2941462d 	stmdbcs	r1, {r0, r2, r3, r5, r9, sl, lr}^
+  14:	352e3420 	strcc	r3, [lr, #-1056]!	; 0x420
+  18:	Address 0x00000018 is out of bounds.
+
