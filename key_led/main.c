@@ -10,27 +10,51 @@
 
 void main()
 {
-	      //led_init
-        rGPJ2CON = 0x1111;            //D1-D4 -> output
-        rGPJ2DAT = 0xff;
-        rGPJ2PUD = 0x55;
-        //key_init
-        rGPH3CON &=~(0xf<<4);
-        rGPH3PUD &=~(0x3<<2);
+    //led_init
+    rGPJ2CON = 0x1111;            //D1-D4 -> output
+    rGPJ2DAT = 0xff;
+    rGPJ2PUD = 0x55;
+    //key_init
+    rGPH3CON &=~(0xffff<<0);
+    rGPH3PUD &=~(0xff<<0);
 
-        while(1)
+    while(1)
+    {
+        if(!(rGPH3DAT & (0x1<<0)))
         {
-                if(!(rGPH3DAT & (0x1<<1)))
-                {
-                        if(!(rGPH3DAT & (0x1<<1)))
-                        {
-                                while(!(rGPH3DAT & (0x1<<1)));
-                                rGPJ2DAT ^= (0xf<<0);
-                        }
-                }
+            if(!(rGPH3DAT & (0x1<<0)))
+            {
+                while(!(rGPH3DAT & (0x1<<0)));
+                rGPJ2DAT ^= (0x1<<0);
+            }       
         }
+        if(!(rGPH3DAT & (0x1<<1)))
+        {
+            if(!(rGPH3DAT & (0x1<<1)))
+            {
+                while(!(rGPH3DAT & (0x1<<1)));
+                rGPJ2DAT ^= (0x1<<1);
+            }
+        }
+        if(!(rGPH3DAT & (0x1<<2)))
+        {
+            if(!(rGPH3DAT & (0x1<<2)))
+            {
+                while(!(rGPH3DAT & (0x1<<2)));
+                rGPJ2DAT ^= (0x1<<2);
+            }
+        }
+        if(!(rGPH3DAT & (0x1<<3)))
+        {
+            if(!(rGPH3DAT & (0x1<<3)))
+            {
+                while(!(rGPH3DAT & (0x1<<3)));
+                rGPJ2DAT ^= (0x1<<3);
+            }
+        }
+        
 
-
+    }
 }
 
 
